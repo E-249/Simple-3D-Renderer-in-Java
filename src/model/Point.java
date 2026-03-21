@@ -1,13 +1,12 @@
 package model;
 
-import view.Drawable;
-import view.Screen;
-
-public record Point(double x, double y, double z) implements Drawable {
-
-	@Override
-	public void drawAt(Screen screen) {
-		screen.virtualFillSquareAt(x / z, y / z, 0.2);
+public record Point(double x, double y, double z) {
+	
+	public Point add(Point that) {
+		double x = this.x + that.x;
+		double y = this.y + that.y;
+		double z = this.z + that.z;
+		return new Point(x, y, z);
 	}
 	
 }

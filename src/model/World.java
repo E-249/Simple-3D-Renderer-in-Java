@@ -1,11 +1,9 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
-import view.Drawable;
-import view.Screen;
-
-public class World implements Drawable {
+public class World {
 
 	private ArrayList<Point> points;
 	
@@ -16,10 +14,20 @@ public class World implements Drawable {
 	public void add(Point point) {
 		points.add(point);
 	}
-
-	@Override
-	public void drawAt(Screen s) {
-		points.forEach(p -> p.drawAt(s));
+	
+	public Point get(int index) {
+		return points.get(index);
+	}
+	
+	public void move(int index, Point point) {
+		Point before = points.get(index);
+		Point after = before.add(point);
+		points.set(index, after);
+		System.out.println(after);
+	}
+	
+	public void forEach(Consumer<? super Point> action) {
+		points.forEach(action);
 	}
 	
 }
