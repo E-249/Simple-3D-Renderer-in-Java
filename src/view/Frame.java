@@ -56,7 +56,11 @@ public class Frame extends JFrame {
 	}
 	
 	private void perFrame() {
-		logic.forEachInWorld((p) -> screen.virtualFillSquareAt(p.x() / p.z(), p.y() / p.z(), 0.2));
+		logic.forEachInWorld((p) -> screen.virtualFillSquareAt(
+			p.x() / p.z(),
+			p.y() / p.z(),
+			0.2 / p.z()
+		));
 	}
 	
 	private class Keyboard implements KeyListener {
@@ -70,30 +74,32 @@ public class Frame extends JFrame {
 		@Override
 		public void keyPressed(KeyEvent e) {
 			
+			final double distance = 0.04;
+			
 			switch (e.getKeyCode()) {
 			
 			case KeyEvent.VK_W: {
-				logic.moveDot(0, +0.25, 0);
+				logic.moveDot(0, +distance, 0);
 			} break;
 			
 			case KeyEvent.VK_S: {
-				logic.moveDot(0, -0.25, 0);
+				logic.moveDot(0, -distance, 0);
 			} break;
 			
 			case KeyEvent.VK_D: {
-				logic.moveDot(+0.25, 0, 0);
+				logic.moveDot(+distance, 0, 0);
 			} break;
 			
 			case KeyEvent.VK_A: {
-				logic.moveDot(-0.25, 0, 0);
+				logic.moveDot(-distance, 0, 0);
 			} break;
 			
 			case KeyEvent.VK_Q: {
-				logic.moveDot(0, 0, +0.25);
+				logic.moveDot(0, 0, +distance);
 			} break;
 			
 			case KeyEvent.VK_E: {
-				logic.moveDot(0, 0, -0.25);
+				logic.moveDot(0, 0, -distance);
 			} break;
 			
 			}
