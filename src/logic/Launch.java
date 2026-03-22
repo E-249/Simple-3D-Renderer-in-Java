@@ -12,7 +12,7 @@ public class Launch {
 	
 	public Launch() {
 		
-		logic = new Logic();
+		logic = new LogicImpl();
 		frame = new Frame(800, logic);
 		schedule = new Schedule(logic, frame);
 		

@@ -20,14 +20,14 @@ public class Frame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private Logic logic;
-	private Screen screen;
+	private Renderer renderer;
 
 	/**
 	 * Create the frame.
 	 */
 	public Frame(int size, Logic logic) {
 		this.logic = logic;
-		this.screen = new Screen(size);
+		this.renderer = new Renderer(size);
 		
 		Keyboard keyboard = new Keyboard();
 		Mouse mouse = new Mouse();
@@ -41,8 +41,8 @@ public class Frame extends JFrame {
 		contentPane.addMouseWheelListener(mouse);
 		setContentPane(contentPane);
 		
-		JLabel label = new JLabel(new ImageIcon(screen.image));
-		contentPane.add(label);
+		JLabel screen = new JLabel(new ImageIcon(renderer.getImage()));
+		contentPane.add(screen);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
@@ -50,13 +50,13 @@ public class Frame extends JFrame {
 	}
 	
 	public void update() {
-		screen.clear();
+		renderer.clear();
 		perFrame();
 		this.repaint();
 	}
 	
 	private void perFrame() {
-		logic.forEachInWorld((p) -> screen.virtualFillSquareAt(
+		logic.forEachInWorld((p) -> renderer.virtualFillSquareAt(
 			p.x() / p.z(),
 			p.y() / p.z(),
 			0.2 / p.z()
