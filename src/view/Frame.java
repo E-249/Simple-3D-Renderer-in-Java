@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import logic.Logic;
+import model.Cube;
+import model.Point;
 
 public class Frame extends JFrame {
 
@@ -55,12 +57,44 @@ public class Frame extends JFrame {
 		this.repaint();
 	}
 	
+	private void drawLine(Point a, Point b) {
+		
+		double fov = 1.0;
+		
+		double xa = a.x() / a.z() * fov;
+		double ya = a.y() / a.z() * fov;
+		double xb = b.x() / b.z() * fov;
+		double yb = b.y() / b.z() * fov;
+		
+		renderer.virtualDrawLineAt(xa, ya, xb, yb);
+	}
+	
+	private void drawCube(Cube cube) {
+		drawLine(cube.getFarLowerLeft(), cube.getFarLowerRight());
+		drawLine(cube.getFarLowerLeft(), cube.getFarUpperLeft());
+		drawLine(cube.getFarLowerLeft(), cube.getNearLowerLeft());
+		
+		drawLine(cube.getFarLowerRight(), cube.getNearLowerRight());
+		drawLine(cube.getFarLowerRight(), cube.getFarUpperRight());
+		
+		drawLine(cube.getNearUpperRight(), cube.getNearUpperLeft());
+		drawLine(cube.getNearUpperRight(), cube.getNearLowerRight());
+		drawLine(cube.getNearUpperRight(), cube.getFarUpperRight());
+		
+		drawLine(cube.getNearUpperLeft(), cube.getNearLowerLeft());
+		drawLine(cube.getNearUpperLeft(), cube.getFarUpperLeft());
+		
+		drawLine(cube.getFarUpperLeft(), cube.getFarUpperRight());
+		drawLine(cube.getNearLowerLeft(), cube.getNearLowerRight());
+	}
+	
 	private void perFrame() {
 		logic.forEachInWorld((p) -> renderer.virtualFillSquareAt(
 			p.x() / p.z(),
 			p.y() / p.z(),
-			0.2 / p.z()
+			0.02 / p.z()
 		));
+		logic.forEachCubeInWorld(this::drawCube);
 	}
 	
 	private class Keyboard implements KeyListener {
@@ -78,28 +112,32 @@ public class Frame extends JFrame {
 			
 			switch (e.getKeyCode()) {
 			
+			case KeyEvent.VK_UP:
 			case KeyEvent.VK_W: {
-				logic.moveDot(0, +distance, 0);
+				logic.moveCube(0, +distance, 0);
 			} break;
 			
+			case KeyEvent.VK_DOWN:
 			case KeyEvent.VK_S: {
-				logic.moveDot(0, -distance, 0);
+				logic.moveCube(0, -distance, 0);
 			} break;
 			
+			case KeyEvent.VK_RIGHT:
 			case KeyEvent.VK_D: {
-				logic.moveDot(+distance, 0, 0);
+				logic.moveCube(+distance, 0, 0);
 			} break;
 			
+			case KeyEvent.VK_LEFT:
 			case KeyEvent.VK_A: {
-				logic.moveDot(-distance, 0, 0);
+				logic.moveCube(-distance, 0, 0);
 			} break;
 			
 			case KeyEvent.VK_Q: {
-				logic.moveDot(0, 0, +distance);
+				logic.moveCube(0, 0, +distance);
 			} break;
 			
 			case KeyEvent.VK_E: {
-				logic.moveDot(0, 0, -distance);
+				logic.moveCube(0, 0, -distance);
 			} break;
 			
 			}

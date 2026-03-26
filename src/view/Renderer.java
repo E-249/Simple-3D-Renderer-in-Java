@@ -34,6 +34,18 @@ public class Renderer {
 		screenDrawAt(screenX, screenY);
 	}
 	
+	public void virtualDrawLineAt(double x1, double y1, double x2, double y2) {
+		virtualDrawLineAt(new VirtualU(x1), new VirtualU(y1), new VirtualU(x2), new VirtualU(y2)); }
+	public void virtualDrawLineAt(VirtualU x1, VirtualU y1, VirtualU x2, VirtualU y2) {
+		
+		ScreenU screenX1 = x1.intoX();
+		ScreenU screenY1 = y1.intoY();
+		ScreenU screenX2 = x2.intoX();
+		ScreenU screenY2 = y2.intoY();
+		
+		screenDrawLineAt(screenX1, screenY1, screenX2, screenY2);
+	}
+	
 	public void virtualFillSquareAt(double x, double y, double s) {
 		virtualFillSquareAt(new VirtualU(x), new VirtualU(y), new VirtualU(s)); }
 	public void virtualFillSquareAt(VirtualU x, VirtualU y, VirtualU s) {
@@ -58,7 +70,7 @@ public class Renderer {
 		screenFillCircleAt(screenX, screenY, screenRW);
 	}
 	
-	public void screenDrawAt(int x, int y, int s) {
+	public void screenDrawAt(int x, int y) {
 		screenDrawAt(new ScreenU(x), new ScreenU(y)); }
 	public void screenDrawAt(ScreenU x, ScreenU y) {
 		
@@ -66,6 +78,14 @@ public class Renderer {
 				x.value(),
 				y.value(),
 				Color.WHITE.getRGB());
+	}
+	
+	public void screenDrawLineAt(int x1, int y1, int x2, int y2) {
+		screenDrawLineAt(new ScreenU(x1), new ScreenU(y1), new ScreenU(x2), new ScreenU(y2)); }
+	public void screenDrawLineAt(ScreenU x1, ScreenU y1, ScreenU x2, ScreenU y2) {
+		
+		screen.getGraphics().setColor(Color.WHITE);
+		screen.getGraphics().drawLine(x1.value, y1.value, x2.value, y2.value);
 	}
 	
 	public void screenFillSquareAt(int x, int y, int s) {
